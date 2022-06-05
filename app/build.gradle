@@ -48,6 +48,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation "com.github.pgreze:android-reactions:1.6"
 
     //OTP PinView
 

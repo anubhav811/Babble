@@ -19,8 +19,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private lateinit var adapter: ChatAdapter
     private lateinit var messages: ArrayList<Message>
-    private lateinit var senderRoom: String
-    private lateinit var receiverRoom: String
+    var senderRoom: String? = null
+    var receiverRoom: String ? = null
     private lateinit var database: FirebaseDatabase
     private lateinit var storage: FirebaseStorage
     private lateinit var senderUid: String
@@ -45,16 +45,16 @@ class ChatActivity : AppCompatActivity() {
         binding.messagesRv.layoutManager = LinearLayoutManager(this)
         binding.messagesRv.adapter = adapter
         database.reference.child("chats")
-            .child(senderRoom)
+            .child(senderRoom!!)
             .child("messages")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     messages.clear()
                     for (snapshot1 in snapshot.children) {
-                        val message = snapshot1.getValue(Message::class.java)
-                        if (message != null) {
+                        val message = snapshot1.getValue(Message::class.java) as Message
+                            message.messageId = snapshot1.key.toString()
                             messages.add(message)
-                        }
+
                     }
                     adapter.notifyDataSetChanged()
                 }
@@ -66,18 +66,18 @@ class ChatActivity : AppCompatActivity() {
                 val date = Date()
                 val message = Message(messageTxt, senderUid, date.time)
                 binding.message.setText("")
-
+                var randomKey = database.reference.push().key
                 database.reference.child("chats")
-                    .child(senderRoom)
+                    .child(senderRoom!!)
                     .child("messages")
-                    .push()
+                    .child(randomKey.toString())
                     .setValue(message).addOnSuccessListener {
                         database.reference.child("chats")
-                            .child(receiverRoom)
+                            .child(receiverRoom!!)
                             .child("messages")
-                            .push()
+                            .child(randomKey.toString())
                             .setValue(message)
-                    }
+            }
             }
 
     }

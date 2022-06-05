@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391769162237",
+    "firebase_url": "https://chat-app-1f74c-default-rtdb.firebaseio.com",
+    "project_id": "chat-app-1f74c",
+    "storage_bucket": "chat-app-1f74c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391769162237:android:66ab3fb60a630412ec9994",
+        "android_client_info": {
+          "package_name": "com.anubhav.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391769162237-9je0r1pbjblql00lbb60l5u44eqg76s5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK1YpjufseIUZ1CWEqNtcvK56DrAXXiXk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391769162237-9je0r1pbjblql00lbb60l5u44eqg76s5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

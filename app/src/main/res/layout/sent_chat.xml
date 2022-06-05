@@ -26,7 +26,7 @@
         android:id="@+id/reaction"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/message"
         app:layout_constraintEnd_toStartOf="@+id/message"
         app:layout_constraintStart_toStartOf="@+id/message"
