@@ -7,12 +7,14 @@ class Message(
     var messageId: String,
     var message: String,
     var senderId: String,
-    var timestamp: Long,
-    var reaction: Int = -1
+    var timestamp: String,
+    var reaction: Int = -1,
+    var imageUrl :String,
+    var status : String
 
  ) : Serializable{
-    constructor() : this("","","",0,-1)
-    constructor(message: String, senderId: String, timestamp: Long) : this() {
+    constructor() : this("","","","",-1,"","Sent")
+    constructor(message: String, senderId: String, timestamp: String) : this() {
         this.message = message
         this.senderId = senderId
         this.timestamp = timestamp

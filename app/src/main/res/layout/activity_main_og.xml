@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:elevation="30dp"
+    tools:context=".activities.MainActivity"
+    tools:menu="@menu/bottom_nav">
+
+    <include
+        android:clickable="true"
+        android:id="@+id/add_status"
+        layout="@layout/add_status_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </include>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/status_shimmer"
+        android:layout_width="0dp"
+        android:background="@color/black"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <include layout="@layout/demo_status">
+        </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+            <include layout="@layout/demo_status">
+            </include>
+
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/chat_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_shimmer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/demo_layout"></include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout"></include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout"></include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+            <include layout="@layout/demo_layout">
+
+            </include>
+
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        tools:listitem="@layout/row_conversation" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/status_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/add_status"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_status" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/chat_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_rv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

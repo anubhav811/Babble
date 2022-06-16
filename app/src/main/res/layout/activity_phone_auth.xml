@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#303030"
     tools:context=".activities.PhoneAuthActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mobile_auth" />
+        app:srcCompat="@drawable/otp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -29,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Verify your phone number"
-        android:textColor="@color/black"
+        android:textColor="#E7E6EC"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        android:textColor="#E7E6EC"
         android:text="This app will send an SMS to verify your phone number"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/textView"
@@ -56,7 +58,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@color/white"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#171717"
+        android:elevation="20dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,17 +71,32 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/phone_et"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/et_outline"
-                android:ems="10"
-                android:hint="Type your phone number"
-                android:inputType="phone"
-                android:padding="10dp"
-                android:textColor="@color/black" />
+                android:orientation="horizontal">
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:ccp_contentColor="@color/grey"
+                    />
+
+                <EditText
+                    android:id="@+id/phone_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/et_outline"
+                    android:ems="10"
+                    android:textColorHint="@color/grey"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:padding="10dp"
+                    android:textColor="#E7E6EC"
+                    />
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/continue_btn"
@@ -86,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="#2A375A"
                 android:text="Continue" />
         </LinearLayout>
 

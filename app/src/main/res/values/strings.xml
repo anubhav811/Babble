@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Chat App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sample_name">Sample Name</string>
+    <string name="sample_lastMsg">Tap to chat</string>
+    <string name="sample_time">4:30 PM</string>
+    <string name="delete_2">Delete for Me</string>
+    <string name="delete_1">Delete for Everyone</string>
+    <string name="delete_cancel">Cancel</string>
+    <string name="user_activity_topbar">Select user</string>
+    <string name="profile_setup">Setup Profile</string>
+    <string name="profile_subtitle">Please set your name and profile image (optional)</string>
+    <string name="profile_subtitle_update">You can change your display name and your profile picture</string>
+    <string name="string_et_name">Type your name</string>
+    <string name="btn_setup">Continue</string>
+    <string name="profile_update">Update Profile</string>
 </resources>

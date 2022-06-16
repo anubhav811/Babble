@@ -10,9 +10,11 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
     }
+
 }
 rootProject.name = "Chat App"
 include ':app'

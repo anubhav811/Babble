@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_navgraph.xml"
+    app:startDestination="@id/chatFragment">
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.anubhav.chatapp.fragments.ChatsFragment"
+        android:label="ChatFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/callFragment"
+        android:name="com.anubhav.chatapp.fragments.CallFragment"
+        android:label="fragment_call"
+        tools:layout="@layout/fragment_call" >
+    </fragment>
+</navigation>

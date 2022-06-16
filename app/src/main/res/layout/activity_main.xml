@@ -4,35 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:elevation="30dp"
+    android:background="#303030"
     tools:context=".activities.MainActivity"
-    tools:menu="@menu/bottom_nav">
+    >
+    <FrameLayout
+    android:id="@+id/flFragment"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="8dp"
+    app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent"
+    >
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/hostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/chat_navgraph"  />
+</FrameLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <me.ibrahimsn.lib.SmoothBottomBar
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="30dp"
-        android:background="@color/black"
+        android:layout_height="80dp"
+        app:backgroundColor="#171717"
+        app:indicatorColor="#2A375A"
+        android:background="#00000000"
+        app:indicatorRadius="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav" />
+        app:menu="@menu/bottom_nav"
+         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chat_rv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/row_conversation" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

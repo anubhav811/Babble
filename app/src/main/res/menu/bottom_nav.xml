@@ -2,15 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/chats"
-        android:icon="@drawable/ic_chats"
-        android:title="Chats" />
+        android:id="@+id/chatFragment"
+        android:icon="@drawable/chat"
+        android:title="CHATS"
+        />
     <item
-        android:id="@+id/status"
-        android:icon="@drawable/ic_status"
-        android:title="Status" />
-    <item
-        android:id="@+id/calls"
-        android:icon="@drawable/ic_call"
-        android:title="Calls" />
+        android:id="@+id/callFragment"
+        android:icon="@drawable/calls"
+        android:title="CALLS" />
+
 </menu>

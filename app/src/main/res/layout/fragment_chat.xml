@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303030"
+    tools:context=".activities.MainActivity"
+    tools:menu="@menu/bottom_nav">
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/status_shimmer"
+        android:layout_width="0dp"
+        android:visibility="visible"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+            <include layout="@layout/demo_status"/>
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/chat_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_shimmer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/demo_layout" />
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+            <include layout="@layout/demo_layout"/>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layoutAnimation="@anim/layout_animation"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        tools:listitem="@layout/row_conversation" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/status_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_status" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/chat_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_rv" />
+
+<com.getbase.floatingactionbutton.FloatingActionsMenu
+    android:id="@+id/fam"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:fab_expandDirection="up"
+    app:fab_labelsPosition="left"
+    app:fab_addButtonColorNormal="#171717"
+android:elevation="20dp"
+    app:fab_addButtonColorPressed="#171717"
+    app:fab_labelStyle="@style/LabelStyle">
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        app:fab_title="Add status"
+        app:fab_icon="@drawable/media"
+        app:fab_colorPressed="@color/white"
+        app:fab_colorNormal="@color/grey"
+        tools:ignore="MissingConstraints" />
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="mini"
+        app:fab_colorPressed="@color/white"
+        app:fab_title="New Message"
+        app:fab_colorNormal="@color/grey"
+        app:fab_icon="@drawable/send"
+        tools:ignore="MissingConstraints" />
+</com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

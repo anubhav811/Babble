@@ -3,11 +3,18 @@ package com.anubhav.chatapp.models
 import java.io.Serializable
 
 data class User (
-     val uid: String,
-     val name: String,
-     val phoneNumber : String,
-    val profileImage: String
+     var uid: String,
+     var name: String,
+     var phoneNumber : String,
+    var profileImage: String,
+     var token : String,
+
     ): Serializable{
-    constructor(): this("","","","")
-    constructor(uid: String, name: String, phoneNumber: String): this(uid, name, phoneNumber, "")
+    constructor(): this("","","","","")
+    constructor(uid: String, name: String, phoneNumber: String,profileImage: String) : this(){
+        this.uid=uid
+        this.name = name
+        this.phoneNumber = phoneNumber
+        this.profileImage = profileImage
     }
+}

@@ -4,29 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8F4D9"
+    android:background="#303030"
     tools:context=".activities.ChatActivity">
 
     <ImageView
         android:id="@+id/sendBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:elevation="20dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
         android:layout_marginRight="5dp"
         android:background="@drawable/circle"
-        android:backgroundTint="#4CAF50"
-        android:padding="10dp"
+        android:backgroundTint="#6E83B7"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messages_rv"
-        app:srcCompat="@drawable/ic_send"
-        app:tint="#FFFFFF" />
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:srcCompat="@drawable/send"
+         />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
-        android:backgroundTint="@color/white"
         android:layout_height="50dp"
-        android:layout_marginStart="5dp"
+        app:cardElevation="20dp"
+        android:backgroundTint="#171717"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:cardCornerRadius="30dp"
@@ -48,30 +51,23 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/grey"
                 android:hint="Type a message..."
-                android:textColor="@color/black"
+                android:textColor="#BCBAC4"
                 android:inputType="textPersonName"
                 android:padding="8dp"
                 android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/attachment"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="12dp"
-                app:srcCompat="@drawable/ic_attachment"
+                android:hapticFeedbackEnabled="true"
+                app:srcCompat="@drawable/media"
                 app:tint="#9C9C9C" />
 
-            <ImageView
-                android:id="@+id/camera"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="12dp"
-                app:srcCompat="@drawable/ic_camera"
-                app:tint="#9C9C9C" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -80,12 +76,77 @@
         android:id="@+id/messages_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        tools:listitem="@layout/sent_chat"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#171717"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/backArrow"
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImg"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/avatar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anubhav"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Online"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

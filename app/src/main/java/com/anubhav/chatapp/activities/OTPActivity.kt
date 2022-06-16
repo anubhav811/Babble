@@ -12,6 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
 class OTPActivity : AppCompatActivity() {
@@ -51,9 +55,7 @@ class OTPActivity : AppCompatActivity() {
                         super.onCodeSent(verifyId, forceSendingToken)
                         verificationId = verifyId
                         dialog.dismiss()
-                        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-                        binding.otpView.requestFocus()
+                            binding.otpView.requestFocus()
                     }
                 }).build()
 
@@ -63,32 +65,33 @@ class OTPActivity : AppCompatActivity() {
         binding.otpView.setOtpCompletionListener { it ->
 
             val credential :PhoneAuthCredential = PhoneAuthProvider.getCredential(verificationId, it.toString())
-            
-            auth.signInWithCredential(credential).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, ProfileSetupActivity::class.java))
-                    finishAffinity()
-                }
-                else{
-                    Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
+         CoroutineScope(Dispatchers.IO).launch {
+             auth.signInWithCredential(credential).addOnCompleteListener {
+                 if (it.isSuccessful) {
 
+                         Toast.makeText(this@OTPActivity, "Login Successful", Toast.LENGTH_SHORT)
+                             .show()
+                         startActivity(Intent(this@OTPActivity, ProfileSetupActivity::class.java))
+                         finishAffinity()
+                     } else {
+                     Toast.makeText(this@OTPActivity, "Login Failed", Toast.LENGTH_SHORT).show()
+                 }
+             }
+         }
         }
 
-        binding.continueBtn.setOnClickListener {
+        binding.continueBtn.setOnClickListener { it ->
             val credential :PhoneAuthCredential = PhoneAuthProvider.getCredential(verificationId, it.toString())
-
+            CoroutineScope(Dispatchers.IO).launch {
             auth.signInWithCredential(credential).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, ProfileSetupActivity::class.java))
+                    Toast.makeText(this@OTPActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@OTPActivity, ProfileSetupActivity::class.java))
                     finishAffinity()
                 }
                 else{
-                    Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
-                }
+                    Toast.makeText(this@OTPActivity, "Login Failed", Toast.LENGTH_SHORT).show()
+                }}
             }
         }
 
