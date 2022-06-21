@@ -36,7 +36,6 @@ class ChatsAdapter(var context: Context, private val chatsList: ArrayList<User>)
         val user = chatsList[position]
         val senderId = FirebaseAuth.getInstance().uid
         val senderRoom  = senderId.plus(user.uid)
-        val receiverRoom = user.uid.plus(senderId)
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
                 FirebaseDatabase.getInstance().reference.child("chats").child(senderRoom)
