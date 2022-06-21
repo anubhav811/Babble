@@ -1,13 +1,18 @@
 package com.anubhav.chatapp.activities
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.anubhav.chatapp.R
@@ -35,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         navController = binding.hostFragment.getFragment<NavHostFragment>().navController
         setupSmoothBottomMenu()
+        if(ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestContactPermission(arrayOf(android.Manifest.permission.READ_CONTACTS), 1)
+        }
     }
 
     private fun setupSmoothBottomMenu(){
@@ -60,6 +69,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.settings -> {
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+
             }
             R.id.update -> {
                 val intent = Intent(this,ProfileUpdateActivity::class.java)
@@ -88,6 +98,37 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun requestContactPermission(arrayOf: Array<String>, i: Int) {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.READ_CONTACTS))
+        {
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Permission needed")
+                .setMessage("Allow permission for getting your contacts info")
+                .setPositiveButton("ok") { dialog, which ->
+                    ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_CONTACTS),1)
+                }
+                .setNegativeButton("cancel") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+        }else{
+            ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.READ_CONTACTS),1)
+        }}
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if(requestCode == 1){
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this,"Permission denied",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
         val currentId = FirebaseAuth.getInstance().uid

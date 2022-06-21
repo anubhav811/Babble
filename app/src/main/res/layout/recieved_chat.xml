@@ -31,6 +31,8 @@
         <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/lato"
+
             android:layout_height="wrap_content"
             android:background="@drawable/received_drawable"
             android:paddingLeft="10dp"
@@ -49,6 +51,7 @@
             android:paddingLeft="10dp"
             android:paddingBottom="5dp"
             android:paddingRight="10dp"
+            android:fontFamily="@font/lato"
             android:text="@string/sample_time"
             android:layout_gravity="start"
             android:textColor="#BCBAC4"

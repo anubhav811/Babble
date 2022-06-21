@@ -19,6 +19,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileSetupActivity : AppCompatActivity() {
 
@@ -39,60 +43,67 @@ class ProfileSetupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
-        storage= FirebaseStorage.getInstance()
+        storage = FirebaseStorage.getInstance()
         database = FirebaseDatabase.getInstance()
 
         progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Creating Profile")
         progressDialog.setCancelable(false)
 
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                database.reference.child("users").child(auth.currentUser!!.uid)
+                    .addValueEventListener(
+                        (object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    user = snapshot.getValue(User::class.java)!!
+                                    name = user.name
+                                    binding.nameEt.setText(name)
+                                    Glide.with(applicationContext).load(user.profileImage)
+                                        .placeholder(R.drawable.avatar).into(binding.imageView)
+                                }
+                            }
 
-        database.reference.child("users").child(auth.currentUser!!.uid).addValueEventListener(
-        (object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    user = snapshot.getValue(User::class.java)!!
-                    name = user.name
-                    binding.nameEt.setText(name)
-                        Glide.with(applicationContext).load(user.profileImage).placeholder(R.drawable.avatar).into(binding.imageView)
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
+                            override fun onCancelled(error: DatabaseError) {
+                            }
 
-        })
-        )
+                        })
+                    )
+            }
+        }
+
+
 
         binding.imgSelect.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-            startActivityForResult(intent,1)
-            }
+            startActivityForResult(intent, 1)
+        }
 
         binding.continueBtn.setOnClickListener {
 
             if (binding.nameEt.text.isEmpty()) {
                 binding.nameEt.error = "Name Required"
-            }
-else{
-            progressDialog.show()
-            if (selectedImage != Uri.EMPTY) {
-                val reference: StorageReference =
-                    storage.reference.child("Profiles").child(auth.currentUser!!.uid)
-                reference.putFile(selectedImage).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        reference.downloadUrl.addOnSuccessListener { uri ->
-                            setupProfile(uri)
+            } else {
+                progressDialog.show()
+                if (selectedImage != Uri.EMPTY) {
+                    val reference: StorageReference =
+                        storage.reference.child("Profiles").child(auth.currentUser!!.uid)
+                    reference.putFile(selectedImage).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            reference.downloadUrl.addOnSuccessListener { uri ->
+                                setupProfile(uri)
+                            }
                         }
                     }
-                }
 
-            } else {
-                setupProfile(user.profileImage.toUri())
+                } else {
+                    setupProfile(user.profileImage.toUri())
+                }
             }
         }
-        }}
-
+    }
 
     private fun setupProfile(uri : Uri){
         val imageUrl = uri.toString()
@@ -101,13 +112,13 @@ else{
         val name = binding.nameEt.text.toString()
         val user = User(uid!!,name,phoneNumber!!,imageUrl)
 
-        database.reference.child("users").child(uid).setValue(user).addOnSuccessListener {
-            Toast.makeText(this,"Profile Created",Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
+                database.reference.child("users").child(uid).setValue(user).addOnSuccessListener {
+                    progressDialog.dismiss()
+                    Toast.makeText(this@ProfileSetupActivity, "Profile Created", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@ProfileSetupActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

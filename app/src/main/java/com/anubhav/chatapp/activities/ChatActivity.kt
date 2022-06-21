@@ -2,18 +2,23 @@ package com.anubhav.chatapp.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.app.ProgressDialog
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.View.OnLayoutChangeListener
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -21,20 +26,21 @@ import com.android.volley.toolbox.Volley
 import com.anubhav.chatapp.R
 import com.anubhav.chatapp.adapters.ConvoAdapter
 import com.anubhav.chatapp.databinding.ActivityChatBinding
+import com.anubhav.chatapp.databinding.RowConversationBinding
 import com.anubhav.chatapp.models.Message
 import com.bumptech.glide.Glide
 import com.github.drjacky.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.jvm.internal.Intrinsics
 
 
 class ChatActivity : AppCompatActivity() {
@@ -85,53 +91,80 @@ class ChatActivity : AppCompatActivity() {
         senderUid = FirebaseAuth.getInstance().uid
 
 
-
-        database!!.reference.child("activity").child(receiverUid!!)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val status = snapshot.getValue(String::class.java)
-                        if (status!!.isNotEmpty()) {
-                            if (status == "Offline") {
-                                binding!!.status.visibility = View.GONE
-                            } else {
-                                binding!!.status.text = status
-                                binding!!.status.visibility = View.VISIBLE
+        CoroutineScope(Dispatchers.IO).launch {
+        withContext(Dispatchers.Main) {
+            database!!.reference.child("activity").child(receiverUid!!)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val status = snapshot.getValue(String::class.java)
+                            if (status!!.isNotEmpty()) {
+                                if (status == "Offline") {
+                                    binding.status.visibility = View.GONE
+                                } else {
+                                    binding.status.text = status
+                                    binding.status.visibility = View.VISIBLE
+                                }
                             }
                         }
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {}
-            })
+                    override fun onCancelled(error: DatabaseError) {}
+
+                })
+        }
+
+        }
 
 
         senderRoom = senderUid + receiverUid
         receiverRoom = receiverUid + senderUid
-        database!!.reference.child("chats")
-            .child(senderRoom!!)
-            .child("messages")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    messages!!.clear()
-                    for (snapshot1 in snapshot.children) {
-                        val message = snapshot1.getValue(Message::class.java)
-                        if (message != null) {
-                            message.messageId = snapshot1.key.toString()
-                            messages!!.add(message)
-                        }
-                    }
-                    adapter!!.notifyDataSetChanged()
-                    binding.messagesRv.smoothScrollToPosition(binding.messagesRv.adapter!!.itemCount)
-                }
 
-                override fun onCancelled(error: DatabaseError) {}
-            })
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                val list = messages!!
+                database!!.reference.child("chats")
+                    .child(senderRoom!!)
+                    .child("messages")
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val count = messages!!.size
+                            messages!!.clear()
+                            for (snapshot1 in snapshot.children) {
+                                val message = snapshot1.getValue(Message::class.java)
+                                if (message != null) {
+                                    message.messageId = snapshot1.key.toString()
+                                    messages!!.add(message)
+                                }
+                            }
+                            adapter!!.notifyDataSetChanged()
+                            if(messages!!.size>count) {
+                                binding.messagesRv.scrollToPosition(binding.messagesRv.adapter!!.itemCount-1)
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }}
+
         adapter = ConvoAdapter(this, messages, senderRoom!!)
         binding.messagesRv.layoutManager = LinearLayoutManager(this)
         binding.messagesRv.adapter = adapter
+        binding.messagesRv.addOnLayoutChangeListener(OnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (bottom < oldBottom) {
+                val lastVisiblePosition = (binding.messagesRv.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                val lastItem = binding.messagesRv.adapter!!.itemCount - 1
+                Log.d("lastVisiblePosition", lastVisiblePosition.toString())
+                Log.d("lastItem", lastItem.toString())
+                binding.messagesRv.postDelayed({
+                    if(lastVisiblePosition+5==lastItem || lastVisiblePosition+6==lastItem) binding.messagesRv.scrollToPosition(lastItem)
+                    else binding.messagesRv.scrollToPosition(lastVisiblePosition)
+
+                }, 100)
+            }
+        })
 
         binding.sendBtn.setOnClickListener {
+            if(binding.message.text.toString().isNotEmpty()){
             adapter!!.notifyDataSetChanged()
             val messageTxt: String = binding.message.getText().toString()
             val dateFormat: DateFormat = SimpleDateFormat("hh.mm aa")
@@ -143,6 +176,8 @@ class ChatActivity : AppCompatActivity() {
             val lastMsgObj: HashMap<String, Any> = HashMap()
             lastMsgObj["lastMsg"] = message.message
             lastMsgObj["lastMsgTime"] = time
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.Main) {
             database!!.reference.child("chats").child(senderRoom!!).updateChildren(lastMsgObj)
             database!!.reference.child("chats").child(receiverRoom!!).updateChildren(lastMsgObj)
             database!!.reference.child("chats")
@@ -150,26 +185,50 @@ class ChatActivity : AppCompatActivity() {
                 .child("messages")
                 .child(randomKey!!)
                 .setValue(message).addOnSuccessListener {
-                    adapter!!.notifyDataSetChanged()
+                    adapter!!.notifyItemInserted(messages!!.size)
                     database!!.reference.child("chats").child(senderRoom!!).child("messages").child(randomKey).child("status").setValue("Sent")
                     database!!.reference.child("chats")
                         .child(receiverRoom!!)
                         .child("messages")
                         .child(randomKey)
                         .setValue(message).addOnSuccessListener {
+                            database!!.reference.child("chats").child(receiverRoom!!).child("unseen").setValue(ServerValue.increment(1))
                             database!!.reference.child("chats").child(senderRoom!!).child("messages").child(randomKey).child("status").setValue("Delivered")
-                            sendNotification(
-                                name,
-                                message.message,
-                                token
-                            )
-                            adapter!!.notifyDataSetChanged()
-                            binding.messagesRv.smoothScrollToPosition(binding.messagesRv.adapter!!.itemCount)
+//                            sendNotification(
+//                                name,
+//                                message.message,
+//                                token
+//                            )
+                            adapter!!.notifyItemInserted(messages!!.size)
+                            binding.messagesRv.scrollToPosition(binding.messagesRv.adapter!!.itemCount-1)
                         }
 
+                }}}
                 }
-
         }
+//        CoroutineScope(Dispatchers.IO).launch {
+//            withContext(Dispatchers.Main) {
+//                database!!.reference.child("chats")
+//                    .child(senderRoom!!)
+//                    .child("messages").addValueEventListener(object : ValueEventListener {
+//                        override fun onDataChange(snapshot: DataSnapshot) {
+//                            if (snapshot.exists()) {
+//                                for (snapshot1 in snapshot.children) {
+//                                    val message = snapshot1.getValue(Message::class.java)
+//                                    if (message != null) {
+//                                        if(message.status=="Delivered"){
+//                                        }
+//                                    }
+//                                }
+//                                adapter!!.notifyDataSetChanged()
+//                            }
+//                        }
+//
+//                        override fun onCancelled(error: DatabaseError) {
+//                        }
+//
+//                    })
+//            }}
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val uri = it.data?.data!!
@@ -180,6 +239,8 @@ class ChatActivity : AppCompatActivity() {
                 reference.putFile(uri).addOnCompleteListener { task ->
                     dialog!!.dismiss()
                     if (task.isSuccessful) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            withContext(Dispatchers.Main) {
                         reference.downloadUrl.addOnSuccessListener { uri ->
                             val filePath = uri.toString()
                             val messageTxt: String =
@@ -212,12 +273,13 @@ class ChatActivity : AppCompatActivity() {
                                         .child("messages")
                                         .child(randomKey)
                                         .setValue(message).addOnSuccessListener {
-                                            adapter!!.notifyDataSetChanged()
-                                            binding.messagesRv.smoothScrollToPosition(binding.messagesRv.adapter!!.itemCount)
+                                            adapter!!.notifyItemInserted(messages!!.size)
+                                            binding.messagesRv.scrollToPosition(binding.messagesRv.adapter!!.itemCount)
                                         }
                                 }
                         }
-                    }
+                    }}}
+
                 }
             }
             else if (it.resultCode == ImagePicker.RESULT_ERROR) {
@@ -235,19 +297,27 @@ class ChatActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.Main) {
                 database!!.reference.child("activity").child(senderUid!!).setValue("typing...")
                 handler.removeCallbacksAndMessages(null)
-                handler.postDelayed(userStoppedTyping, 1000)
+                handler.postDelayed(userStoppedTyping, 1000)}}
             }
 
             var userStoppedTyping =
                 Runnable {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
                     database!!.reference.child("activity").child(senderUid!!).setValue("Online")
-                }
+                }}}
         })
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
+
+
     }
+
+
 
 
     fun sendNotification(name: String?, message: String?, token: String?) {
@@ -274,8 +344,7 @@ class ChatActivity : AppCompatActivity() {
                     @Throws(AuthFailureError::class)
                     override fun getHeaders(): Map<String, String> {
                         val map: HashMap<String, String> = HashMap()
-                        val key =
-                            "Key=AAAAWzdDAf0:APA91bFr2CU-YWpb3ay0a0DCLOvu7oJBUbB9ld5MNK4qlnPC1Il1HWuh4HgJmxOu4Qvgo0Zag6o8-s8rVg6a8KrVLB-BuzfTp09KgGE_VlmjTaeKNyzud3TT6QJhu7_9QMzzLwD7fYOM"
+                        val key = "Key=AAAAWzdDAf0:APA91bFr2CU-YWpb3ay0a0DCLOvu7oJBUbB9ld5MNK4qlnPC1Il1HWuh4HgJmxOu4Qvgo0Zag6o8-s8rVg6a8KrVLB-BuzfTp09KgGE_VlmjTaeKNyzud3TT6QJhu7_9QMzzLwD7fYOM"
                         map["Content-Type"] = "application/json"
                         map["Authorization"] = key
                         return map
@@ -293,7 +362,7 @@ class ChatActivity : AppCompatActivity() {
 //    override fun onResume() {
 //        super.onResume()
 //        adapter!!.notifyDataSetChanged()
-//        binding.messagesRv.smoothScrollToPosition(binding.messagesRv.adapter!!.itemCount)
+//        binding.messagesRv.ScrollToPosition(binding.messagesRv.adapter!!.itemCount)
 //        val currentId = FirebaseAuth.getInstance().uid
 //        database!!.reference.child("activity").child(currentId!!).setValue("Online")
 //        database!!.reference.child("chats")
@@ -330,6 +399,7 @@ class ChatActivity : AppCompatActivity() {
         super.onResume()
         val currentId = FirebaseAuth.getInstance().uid
         database!!.reference.child("activity").child(currentId!!).setValue("Online")
+
     }
 
 

@@ -42,7 +42,7 @@
     />
 
     <TextView
-        android:id="@+id/last_msg"
+        android:id="@+id/last_call_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -57,34 +57,14 @@
         app:layout_constraintTop_toBottomOf="@+id/username"
     />
 
-    <TextView
-        android:id="@+id/msg_time"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/lato"
-        android:layout_marginEnd="8dp"
-        android:text="@string/sample_time"
-        android:textColor="#E7E6EC"
-        android:textSize="11sp"
+        android:layout_marginEnd="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/last_call_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-    />
-
-    <Button
-        android:id="@+id/unseen"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:background="@drawable/circle"
-        android:textSize="10sp"
-        android:backgroundTint="#4964EF"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/msg_time"
-        app:layout_constraintTop_toBottomOf="@id/msg_time"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/last_msg"
-        tools:layout_editor_absoluteY="5dp" />
+        app:srcCompat="@drawable/ic_call" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

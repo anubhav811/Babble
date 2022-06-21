@@ -11,6 +11,7 @@
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable-v24/ic_search.xml" value="0.252" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable-v24/ic_send.xml" value="0.252" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable-v24/ic_status.xml" value="0.252" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable-v24/received_drawable.xml" value="0.1805" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable-v24/recieved_drawable.xml" value="0.2555" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable-v24/sent_drawable.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/add_status_layout.xml" value="0.1" />
@@ -32,18 +33,19 @@
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_setup.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_update.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_users.xml" value="0.1" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_users.xml" value="0.128" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/add_status_layout.xml" value="0.4" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/delete_dialog.xml" value="0.2" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/demo_layout.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/demo_status.xml" value="0.24895833333333334" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_call.xml" value="0.1" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.264" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.2" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_chat2.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_profile.xml" value="0.1527777777777778" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/item_status.xml" value="0.1" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/recieved_chat.xml" value="0.2" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_conversation.xml" value="0.1" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/recieved_chat.xml" value="0.264" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_call.xml" value="0.4" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_conversation.xml" value="0.264" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_user.xml" value="0.2" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/sent_chat.xml" value="0.264" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/sent_chat2.xml" value="0.25" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    android:background="@color/black"
     tools:context=".activities.MainActivity"
     tools:menu="@menu/bottom_nav">
 
@@ -134,5 +134,29 @@ android:elevation="20dp"
         tools:ignore="MissingConstraints" />
 </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
+    <ImageView
+        android:id="@+id/empty_iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/empty_rv" />
 
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        android:text="Damn so empty\nPress + to start a conversation"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/empty_iv"
+        app:layout_constraintEnd_toEndOf="@+id/empty_iv"
+        app:layout_constraintStart_toStartOf="@+id/empty_iv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

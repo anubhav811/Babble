@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@id/profileImg" />
 
     <TextView
-        android:id="@+id/last_msg"
+        android:id="@+id/last_call_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_lastMsg"

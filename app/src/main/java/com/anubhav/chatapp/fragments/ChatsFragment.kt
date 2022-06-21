@@ -4,22 +4,23 @@ package com.anubhav.chatapp.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.LayoutAnimationController
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.anubhav.chatapp.R
 import com.anubhav.chatapp.activities.UsersActivity
 import com.anubhav.chatapp.adapters.ChatsAdapter
 import com.anubhav.chatapp.adapters.StatusAdapter
@@ -105,8 +106,13 @@ class ChatsFragment : Fragment() {
             })
 
         binding.newMessage.setOnClickListener {
-            val intent = Intent(requireContext(), UsersActivity::class.java)
-            startActivity(intent)
+            if(ContextCompat.checkSelfPermission(requireContext(),
+                    android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(requireContext(), UsersActivity::class.java)
+                startActivity(intent)
+            }else{
+                Toast.makeText(requireContext(), "Permission not granted", Toast.LENGTH_SHORT).show()
+            }
         }
         
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -235,6 +241,7 @@ class ChatsFragment : Fragment() {
                                                     chatsList.add(user)
                                                     adapter.notifyDataSetChanged()
                                                 }
+
                                             }
                                         }
                                     }
@@ -243,16 +250,18 @@ class ChatsFragment : Fragment() {
                                 })
                         }
                         adapter.notifyDataSetChanged()
-
                         chatShimmerFl.stopShimmer()
                         chatShimmerFl.visibility = View.GONE
                         binding.chatRv.visibility = View.VISIBLE
+
                     }
                 }
             })
 
     }
-    
+
+
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()

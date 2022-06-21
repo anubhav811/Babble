@@ -24,6 +24,11 @@ import com.github.pgreze.reactions.dsl.reactionConfig
 import com.github.pgreze.reactions.dsl.reactions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import omari.hamza.storyview.StoryView
 import omari.hamza.storyview.model.MyStory
 
@@ -139,7 +144,8 @@ class ConvoAdapter(
                         }
                     }
 
-
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
                     FirebaseDatabase.getInstance().reference.child("chats")
                         .child(activity.senderRoom!!)
                         .child("messages").child(message!!.messageId).child("reaction")
@@ -149,7 +155,7 @@ class ConvoAdapter(
                         .child(activity.receiverRoom!!)
                         .child("messages").child(message.messageId).child("reaction")
                         .setValue(message.reaction)
-                }
+                }}}
             }
             true
 
@@ -193,7 +199,6 @@ class ConvoAdapter(
                             R.color.white
                         ), android.graphics.PorterDuff.Mode.SRC_IN
                     );
-
                 }
                 "Sent" -> {
                     (viewHolder as SentViewHolder).binding.tick1.visibility = View.VISIBLE
@@ -259,8 +264,9 @@ class ConvoAdapter(
                     notifyDataSetChanged()
                     FirebaseDatabase.getInstance().reference.child("chats")
                         .child(receiverRoom)
-                        .child("messages").child(message!!.messageId).child("status")
+                        .child("messages").child(message.messageId).child("status")
                         .setValue("Seen").addOnSuccessListener {
+                            FirebaseDatabase.getInstance().reference.child("chats").child(senderRoom).child("unseen").setValue(0)
                             notifyDataSetChanged()
                         }
                 }
