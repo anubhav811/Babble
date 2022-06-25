@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                 alert.setButton(AlertDialog.BUTTON_POSITIVE, "Yes") { dialog, _ ->
                     CoroutineScope(Dispatchers.IO).launch{
                         withContext(Dispatchers.Main) {
+                            database.reference.child("users").child(Firebase.auth.currentUser!!.uid).child("token").setValue("")
                             Firebase.auth.signOut()
                         }
                     }

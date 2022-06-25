@@ -4,8 +4,9 @@
 
 
     <item
-        android:icon="@drawable/ic_call"
-        android:title="Audio Call"
+        android:id="@+id/videoCall"
+        android:icon="@drawable/ic_video"
+        android:title="Video Call"
         app:showAsAction="always" />
 
 </menu>

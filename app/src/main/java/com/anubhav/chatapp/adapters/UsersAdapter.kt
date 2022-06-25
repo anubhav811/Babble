@@ -43,7 +43,6 @@ class UsersAdapter(var context: Context, private val usersList: ArrayList<User>)
             intent.putExtra("token",user.token)
             intent.flags  = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
-
         }
         holder.itemView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fall_down))
 

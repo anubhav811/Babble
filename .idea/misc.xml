@@ -17,18 +17,22 @@
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/add_status_layout.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/circle.xml" value="0.2125" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/et_outline.xml" value="0.2125" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_accept.xml" value="0.2545" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1625" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_baseline_insert_photo_24.xml" value="0.2125" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_baseline_person_2_24.xml" value="0.2125" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_decline.xml" value="0.2545" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_video.xml" value="0.1745" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/label_bg.xml" value="0.11" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/sent_chat.xml" value="0.2045" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_chat.xml" value="0.264" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_image_open.xml" value="0.25" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_image_picker.xml" value="0.1015625" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_incoming_call.xml" value="0.24895833333333334" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_main_og.xml" value="0.1902497027348395" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.2" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_outgoing_call.xml" value="0.24895833333333334" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_phone_auth.xml" value="0.144" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_setup.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_update.xml" value="0.1" />

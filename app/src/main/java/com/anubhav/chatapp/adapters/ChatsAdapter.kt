@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.anubhav.chatapp.R
 import com.anubhav.chatapp.activities.ChatActivity
 import com.anubhav.chatapp.databinding.RowConversationBinding
+import com.anubhav.chatapp.listeners.UsersListener
 import com.anubhav.chatapp.models.User
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -25,13 +26,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class ChatsAdapter(var context: Context, private val chatsList: ArrayList<User>) : RecyclerView.Adapter<ChatsAdapter.UsersViewHolder>() {
+class ChatsAdapter(var context: Context, private val chatsList: ArrayList<User> ) : RecyclerView.Adapter<ChatsAdapter.UsersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.row_conversation, parent, false)
         return UsersViewHolder(view)
     }
-
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
         val user = chatsList[position]
         val senderId = FirebaseAuth.getInstance().uid
@@ -49,7 +49,7 @@ class ChatsAdapter(var context: Context, private val chatsList: ArrayList<User>)
                                     holder.binding.lastMsg.text = lastMsg
                                     holder.binding.msgTime.text = time
 
-                                    if (unseen == "0" || unseen.isNullOrBlank()) {
+                                    if (unseen == "0" || unseen.isBlank()) {
                                         holder.binding.unseen.visibility = View.GONE
                                         holder.binding.lastMsg.setTypeface(null, android.graphics.Typeface.NORMAL)
                                     } else {

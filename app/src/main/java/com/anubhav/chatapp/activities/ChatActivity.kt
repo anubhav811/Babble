@@ -2,23 +2,21 @@ package com.anubhav.chatapp.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.app.ProgressDialog
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.OnLayoutChangeListener
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -26,24 +24,29 @@ import com.android.volley.toolbox.Volley
 import com.anubhav.chatapp.R
 import com.anubhav.chatapp.adapters.ConvoAdapter
 import com.anubhav.chatapp.databinding.ActivityChatBinding
-import com.anubhav.chatapp.databinding.RowConversationBinding
+import com.anubhav.chatapp.listeners.UsersListener
 import com.anubhav.chatapp.models.Message
+import com.anubhav.chatapp.models.User
 import com.bumptech.glide.Glide
 import com.github.drjacky.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jitsi.meet.sdk.JitsiMeetActivity
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
 import org.json.JSONObject
+import java.net.URL
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() , UsersListener{
     private lateinit var binding: ActivityChatBinding
     var adapter: ConvoAdapter? = null
     var messages: ArrayList<Message?>? = null
@@ -54,6 +57,7 @@ class ChatActivity : AppCompatActivity() {
     var dialog: ProgressDialog? = null
     var senderUid: String? = null
     var receiverUid: String? = null
+    private lateinit var sender: User
     var name: String? = null
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +94,17 @@ class ChatActivity : AppCompatActivity() {
         receiverUid = intent.getStringExtra("uid")
         senderUid = FirebaseAuth.getInstance().uid
 
+        database!!.reference.child("users").child(senderUid!!).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    sender = snapshot.getValue(User::class.java)!!
+                }
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
         CoroutineScope(Dispatchers.IO).launch {
         withContext(Dispatchers.Main) {
             database!!.reference.child("activity").child(receiverUid!!)
@@ -206,29 +220,7 @@ class ChatActivity : AppCompatActivity() {
                 }}}
                 }
         }
-//        CoroutineScope(Dispatchers.IO).launch {
-//            withContext(Dispatchers.Main) {
-//                database!!.reference.child("chats")
-//                    .child(senderRoom!!)
-//                    .child("messages").addValueEventListener(object : ValueEventListener {
-//                        override fun onDataChange(snapshot: DataSnapshot) {
-//                            if (snapshot.exists()) {
-//                                for (snapshot1 in snapshot.children) {
-//                                    val message = snapshot1.getValue(Message::class.java)
-//                                    if (message != null) {
-//                                        if(message.status=="Delivered"){
-//                                        }
-//                                    }
-//                                }
-//                                adapter!!.notifyDataSetChanged()
-//                            }
-//                        }
-//
-//                        override fun onCancelled(error: DatabaseError) {
-//                        }
-//
-//                    })
-//            }}
+
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val uri = it.data?.data!!
@@ -355,6 +347,12 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.videoCall ->  initiateVideoCall(receiverUid!!)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
 
@@ -411,6 +409,58 @@ class ChatActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return super.onSupportNavigateUp()
+    }
+
+    override fun initiateVideoCall(userId: String) {
+        CoroutineScope(Dispatchers.IO).launch{
+            withContext(Dispatchers.Main){
+                database!!.reference.child("users").child(userId).addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val user = snapshot.getValue(User::class.java)
+                            if(user!!.token.isEmpty()){
+                                Toast.makeText(this@ChatActivity,user.name + " is not available right now",Toast.LENGTH_SHORT).show()
+                            }
+                            else{
+                                val intent  = Intent(this@ChatActivity,OutgoingCall::class.java)
+                                intent.putExtra("sender",sender)
+                                intent.putExtra("receiver",user)
+                                intent.putExtra("type","Video")
+                                startActivity(intent)
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+            }
+        }
+    }
+
+    override fun initiateVoiceCall(userId: String) {
+        CoroutineScope(Dispatchers.IO).launch{
+            withContext(Dispatchers.Main){
+                database!!.reference.child("users").child(userId).addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            val user = snapshot.getValue(User::class.java)
+                            if(user!!.token.isEmpty()){
+                                Toast.makeText(this@ChatActivity,user.name + " is not available right now",Toast.LENGTH_SHORT).show()
+                            }
+                            else{
+                                Toast.makeText(this@ChatActivity,"Voice call initiated with "+ user.name,Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+            }
+        }
     }
 
 

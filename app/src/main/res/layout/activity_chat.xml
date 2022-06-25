@@ -8,7 +8,6 @@
     android:background="@color/black"
     tools:context=".activities.ChatActivity">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
