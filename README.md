@@ -15,7 +15,7 @@ Just sign up using your phone number and talk to anyone who uses Babble.
 * Sync phone contacts 
 * React on Messages
 * Share Images 
-
+* Delete Conversation / Messages
 
 *Libraries/Sdk used*
 * The android app is coded in Kotlin and XML
