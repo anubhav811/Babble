@@ -7,8 +7,8 @@
 
 
 
+<img src="https://github.com/anubhav811/Babble/blob/master/Github%20readme.png" alt="banner" width="400"/>
 
-![banner](https://github.com/anubhav811/Babble/blob/master/Github%20readme.png)
 
 
 
