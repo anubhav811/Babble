@@ -6,20 +6,11 @@ Just sign up using your phone number and talk to anyone who uses Babble.
 
 ![banner](https://github.com/anubhav811/Babble/blob/master/Github%20readme.png)
 
-*Features*:
-* Text Messaging
-* Voice Calling
-* Video Calling
-* Upload Stories/Status like Whatsapp and Instagram
-* Sync phone contacts 
-* React on Messages
-* Share Images 
-* Delete Conversation / Messages
 
 *Libraries/Sdk used*
-* The android app is coded in Kotlin and XML
-* Firebase - Authentication , Realtime Database , Cloud Messaging
-* JitsmiMeet
-* Retrofit
+* **The android app is coded in Kotlin and XML**
+* **[Firebase - Authentication , Realtime Database , Cloud Messaging , Storage](https://firebase.google.com/?gclid=Cj0KCQjw8O-VBhCpARIsACMvVLMkaNxW1x1qn9M4jd92Oakv5nUEf6MW5kQpcQzMsDnpFH73hSfk9QcaAqQgEALw_wcB&gclsrc=aw.ds)**
+* **[Jitsmi Meet](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-android-sdk/)**
+* **[Retrofit](https://square.github.io/retrofit/)**
 
 
