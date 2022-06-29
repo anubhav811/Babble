@@ -2,7 +2,7 @@
 
 
 ## Babble is a chatting and calling application for anyone with an Anroid phone and an Internet connection.
-##Just sign up using your phone number and talk to anyone who uses Babble.
+### Just sign up using your phone number and talk to anyone who uses Babble.
 
 
 
