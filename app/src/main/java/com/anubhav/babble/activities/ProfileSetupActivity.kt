@@ -1,16 +1,19 @@
 package com.anubhav.babble.activities
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.anubhav.babble.R
 import com.anubhav.babble.databinding.ActivityProfileSetupBinding
 import com.anubhav.babble.models.User
 import com.bumptech.glide.Glide
+import com.github.drjacky.imagepicker.ImagePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -72,13 +75,22 @@ class ProfileSetupActivity : AppCompatActivity() {
                     )
             }
         }
-
+        val launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val uri = result.data?.data!!
+                    binding.imageView.setImageURI(uri)
+                    selectedImage = uri
+                }
+                }
 
 
         binding.imgSelect.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            startActivityForResult(intent, 1)
+            ImagePicker.with(this)
+                .crop()
+                .createIntentFromDialog {
+                    launcher.launch(it)
+                }
         }
 
         binding.continueBtn.setOnClickListener {
@@ -120,14 +132,5 @@ class ProfileSetupActivity : AppCompatActivity() {
                     finish()
                 }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        if (data!=null){
-            if(data.data!=null){
-                binding.imageView.setImageURI(data.data)
-                selectedImage = data.data!!
-            }
-        }
-    }
 }

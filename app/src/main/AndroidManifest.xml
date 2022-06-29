@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <application
-        android:name="com.anubhav.babble.MyFirebaseApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -29,13 +28,11 @@
             android:name="com.anubhav.babble.activities.IncomingCall"
             android:exported="false" />
         <activity
-            android:name="com.anubhav.babble.adapters.InviteActivity"
+            android:name="com.anubhav.babble.activities.InviteActivity"
             android:exported="false"
             android:noHistory="true"
             android:theme="@style/Theme.Babble.NoActionBar" />
-        <activity
-            android:name="com.anubhav.babble.activities.SettingsActivity"
-            android:exported="false" />
+
         <activity
             android:name="com.anubhav.babble.activities.UsersActivity"
             android:exported="false"
@@ -63,7 +60,9 @@
             android:exported="false" />
         <activity
             android:name="com.anubhav.babble.activities.OTPActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Babble.NoActionBar"
+            />
         <activity
             android:name="com.anubhav.babble.activities.PhoneAuthActivity"
             android:exported="false"
@@ -94,7 +93,7 @@
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_send" />
+            android:resource="@drawable/send" />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.

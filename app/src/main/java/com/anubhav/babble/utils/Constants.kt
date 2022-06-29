@@ -7,7 +7,7 @@ class Constants {
 
         fun getRemoteMessageHeader() : HashMap<String,String>{
             val headers = HashMap<String,String>()
-            headers[REMOTE_MSG_AUTHORIZATION] = "key=AAAAWzdDAf0:APA91bFr2CU-YWpb3ay0a0DCLOvu7oJBUbB9ld5MNK4qlnPC1Il1HWuh4HgJmxOu4Qvgo0Zag6o8-s8rVg6a8KrVLB-BuzfTp09KgGE_VlmjTaeKNyzud3TT6QJhu7_9QMzzLwD7fYOM"
+            headers[REMOTE_MSG_AUTHORIZATION] = "key=AAAAHsSUUn0:APA91bFLZWwUt8Cco0OkMq5HnH73f5rrbbR4K28mnUx30jWD475s4jcXQk1aK_gUm5lihU3Kij4pxMwYVbo3P8lKNZIffPdDlLOoHUbBUn5hHH3VYGUs2OQuQzykWHZY4B_ymVm9MHpM"
             headers[REMOTE_MSG_CONTENT_TYPE] = "application/json"
 
             return headers

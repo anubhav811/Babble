@@ -8,12 +8,13 @@
 
 <p align="center">
 <img src="https://github.com/anubhav811/Babble/blob/master/Github%20readme.png" alt="banner" width="1000"/>
+<br>
+<br>
+<img src="https://github.com/anubhav811/Babble/blob/master/signup.png" alt="banner" width="1000"/>
 </p>
 <br>
 <br>
 <br>
-
-
 
 
 ## Libraries/Sdk used

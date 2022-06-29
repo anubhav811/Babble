@@ -1,20 +1,16 @@
 package com.anubhav.babble.activities
 
-import android.R.menu
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.anubhav.babble.R
-import com.anubhav.babble.adapters.InviteActivity
 import com.anubhav.babble.adapters.UsersAdapter
 import com.anubhav.babble.databinding.ActivityUsersBinding
-import com.anubhav.babble.db.RoomDb
-import com.anubhav.babble.db.UserEntity
 import com.anubhav.babble.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -40,6 +36,7 @@ class UsersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         dialog = ProgressDialog(this)
         dialog.setMessage("Syncing your contacts...")

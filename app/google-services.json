@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "391769162237",
-    "firebase_url": "https://chat-app-1f74c-default-rtdb.firebaseio.com",
-    "project_id": "chat-app-1f74c",
-    "storage_bucket": "chat-app-1f74c.appspot.com"
+    "project_number": "132147073661",
+    "project_id": "babble-b3777",
+    "storage_bucket": "babble-b3777.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:391769162237:android:66ab3fb60a630412ec9994",
+        "mobilesdk_app_id": "1:132147073661:android:5656f9d17dc7e823839714",
         "android_client_info": {
-          "package_name": "com.anubhav.chatapp"
+          "package_name": "com.anubhav.babble"
         }
       },
       "oauth_client": [
         {
-          "client_id": "391769162237-9brfvkutraa6b77h3n7g98ri3101dnom.apps.googleusercontent.com",
+          "client_id": "132147073661-nil7jr71lg9s7tgntep631g81si6b06k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.anubhav.chatapp",
+            "package_name": "com.anubhav.babble",
             "certificate_hash": "dc3abef8a96bfb1ac5d84fe7e76e42a3bac751fb"
           }
         },
         {
-          "client_id": "391769162237-9je0r1pbjblql00lbb60l5u44eqg76s5.apps.googleusercontent.com",
+          "client_id": "132147073661-i1gq97icen1ndlmh9i5dl8as2ko861qj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDK1YpjufseIUZ1CWEqNtcvK56DrAXXiXk"
+          "current_key": "AIzaSyBlwHzlhbsFsdFT9Nw_eC6BNqskE8B0usY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "391769162237-9je0r1pbjblql00lbb60l5u44eqg76s5.apps.googleusercontent.com",
+              "client_id": "132147073661-i1gq97icen1ndlmh9i5dl8as2ko861qj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

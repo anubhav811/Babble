@@ -32,7 +32,6 @@ class InviteAdapter(var context: Context, private var inviteList: ArrayList<Invi
         return InviteViewHolder(view)
     }
 
-
     override fun onBindViewHolder(holder: InviteViewHolder, position: Int) {
         val user = inviteList[position]
         holder.binding.username.text = user.name
@@ -47,13 +46,6 @@ class InviteAdapter(var context: Context, private var inviteList: ArrayList<Invi
             val sms_intent = Intent(Intent.ACTION_SENDTO, sms_uri)
             sms_intent.putExtra("sms_body", "Hey, I am using Babble app. Download it now from https://github.com/anubhav811/Babble");
             startActivity(this.context, sms_intent, null)
-
-//            val smsIntent = Intent(Intent.ACTION_VIEW)
-//            smsIntent.type = "vnd.android-dir/mms-sms"
-//            smsIntent.putExtra("address", user.phoneNumber)
-//            smsIntent.putExtra("sms_body", "Hey, I am using Babble app. Download it now from https://github.com/anubhav811/Babble");
-//            startActivity(this.context, smsIntent, null)
-
         }
         holder.itemView.startAnimation(AnimationUtils.loadAnimation(context,R.anim.fall_down))
 

@@ -7,9 +7,6 @@ import com.google.firebase.ktx.Firebase
 class MyFirebaseApp : Application() {
     override fun onCreate() {
         super.onCreate();
-        Firebase.database.setPersistenceEnabled(true)
-        val chatsRef = Firebase.database.reference.child("chats")
-        chatsRef.keepSynced(true)
 
     }
 }

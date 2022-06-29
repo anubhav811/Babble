@@ -5,8 +5,9 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.PopupMenu
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,16 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.anubhav.babble.R
-import com.anubhav.babble.adapters.InviteActivity
 import com.anubhav.babble.databinding.ActivityMainBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,13 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-        database = FirebaseDatabase.getInstance()
+        database = Firebase.database
         navController = binding.hostFragment.getFragment<NavHostFragment>().navController
         setupSmoothBottomMenu()
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
@@ -67,19 +59,13 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
         when (item.itemId) {
             R.id.invite -> {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.READ_CONTACTS
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
+                if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
                     val intent = Intent(this, InviteActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Contact permission not granted", Toast.LENGTH_SHORT)
-                        .show()
+                    startActivity(intent) }
+                else {
+                    Toast.makeText(this, "Contact permission not granted", Toast.LENGTH_SHORT).show()
                 }
                 return true
             }
@@ -87,8 +73,6 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, ProfileUpdateActivity::class.java)
                 startActivity(intent)
                 return true
-
-
             }
 
             R.id.logout -> {
@@ -96,16 +80,17 @@ class MainActivity : AppCompatActivity() {
                 alert.setTitle("Logout")
                 alert.setMessage("Are you sure you want to logout?")
                 alert.setButton(AlertDialog.BUTTON_POSITIVE, "Yes") { dialog, _ ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        withContext(Dispatchers.Main) {
-                            database.reference.child("users").child(Firebase.auth.currentUser!!.uid)
-                                .child("token").setValue("")
-                                Firebase.auth.signOut()
-                        }
+
+                val currUser = Firebase.auth.currentUser!!.uid
+                database.reference.child("users").child(currUser)
+                    .child("token").setValue("").addOnSuccessListener {
+                        Firebase.auth.signOut()
                     }
-                    val intent = Intent(this, PhoneAuthActivity::class.java)
-                    dialog.dismiss()
-                    startActivity(intent)
+
+                val intent = Intent(this, PhoneAuthActivity::class.java)
+                dialog.dismiss()
+                startActivity(intent)
+                    finish()
                 }
                 alert.setButton(AlertDialog.BUTTON_NEGATIVE, "No") { dialog, _ ->
                     dialog.dismiss()
@@ -114,9 +99,7 @@ class MainActivity : AppCompatActivity() {
 
                 return true
             }
-
             else -> return super.onOptionsItemSelected(item)
-
         }
     }
 

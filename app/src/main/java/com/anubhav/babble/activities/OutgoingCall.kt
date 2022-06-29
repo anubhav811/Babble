@@ -187,17 +187,17 @@ class OutgoingCall : AppCompatActivity() {
 
                     CoroutineScope(Dispatchers.IO).launch {
                         withContext(Dispatchers.Main){
-                            val randomKey = Firebase.database!!.reference.push().key
+                            val randomKey = Firebase.database.reference.push().key
 
                             Firebase.database.reference.child("calls").child(sender.uid).child(randomKey!!).child("callTime").setValue(time)
-                            Firebase.database.reference.child("calls").child(sender.uid).child(randomKey!!).child("callType").setValue(callType)
-                            Firebase.database.reference.child("calls").child(sender.uid).child(randomKey!!).child("id").setValue(receiver.uid)
-                            Firebase.database.reference.child("calls").child(sender.uid).child(randomKey!!).child("name").setValue(receiver.name)
+                            Firebase.database.reference.child("calls").child(sender.uid).child(randomKey).child("callType").setValue(callType)
+                            Firebase.database.reference.child("calls").child(sender.uid).child(randomKey).child("id").setValue(receiver.uid)
+                            Firebase.database.reference.child("calls").child(sender.uid).child(randomKey).child("name").setValue(receiver.name)
 
-                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey!!).child("callTime").setValue(time)
-                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey!!).child("callType").setValue(callType)
-                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey!!).child("id").setValue(sender.uid)
-                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey!!).child("name").setValue(sender.name)
+                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey).child("callTime").setValue(time)
+                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey).child("callType").setValue(callType)
+                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey).child("id").setValue(sender.uid)
+                            Firebase.database.reference.child("calls").child(receiver.uid).child(randomKey).child("name").setValue(sender.name)
 
                         }
 

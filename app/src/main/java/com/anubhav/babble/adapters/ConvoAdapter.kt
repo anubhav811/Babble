@@ -4,7 +4,6 @@ package com.anubhav.babble.adapters
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +23,8 @@ import com.github.pgreze.reactions.dsl.reactionConfig
 import com.github.pgreze.reactions.dsl.reactions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import omari.hamza.storyview.StoryView
 import omari.hamza.storyview.model.MyStory
 
@@ -35,22 +32,21 @@ import omari.hamza.storyview.model.MyStory
 class ConvoAdapter(
     private var activity: ChatActivity,
     private val messages: ArrayList<Message?>?,
-    senderRoom: String
+    senderRoom: String,
+    receiverRoom: String
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val ITEM_SENT = 1
     private val ITEM_RECEIVED = 2
+
     private val senderRoom = senderRoom
-    var selected_position = 0 // You have to set this globally in the Adapter class
+    private val receiverRoom = receiverRoom
 
 
-    val receiverId = senderRoom.slice(28..55)
-    val receiverRoom = receiverId + FirebaseAuth.getInstance().currentUser!!.uid
 
     class SentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var binding: SentChatBinding
-
         init {
             binding = SentChatBinding.bind(view)
         }
@@ -58,8 +54,6 @@ class ConvoAdapter(
 
     class ReceivedViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var binding: RecievedChatBinding
-
-
         init {
             binding = RecievedChatBinding.bind(view)
         }
@@ -76,7 +70,6 @@ class ConvoAdapter(
             ReceivedViewHolder(view)
         }
     }
-
 
     override fun getItemViewType(position: Int): Int {
         val message = messages?.get(position)
@@ -110,8 +103,6 @@ class ConvoAdapter(
             }
         }
 
-
-        // line 100 to 136 for adding rxns
         var viewHolder: RecyclerView.ViewHolder
         val popup = ReactionPopup(activity.applicationContext, config, { pos: Int? ->
             if (pos != null) {
@@ -126,7 +117,7 @@ class ConvoAdapter(
                             (viewHolder as ReceivedViewHolder).binding.reaction.visibility = View.GONE
                         }
                     } else if (pos != message?.reaction) {
-                        message?.reaction = pos!!
+                        message?.reaction = pos
                         if (holder.javaClass == SentViewHolder::class.java) {
                             viewHolder = holder as SentViewHolder
                             (viewHolder as SentViewHolder).binding.reaction.setImageResource(
@@ -144,26 +135,21 @@ class ConvoAdapter(
                         }
                     }
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        withContext(Dispatchers.Main) {
                     FirebaseDatabase.getInstance().reference.child("chats")
-                        .child(activity.senderRoom!!)
+                        .child(activity.senderRoom)
                         .child("messages").child(message!!.messageId).child("reaction")
                         .setValue(message.reaction)
 
                     FirebaseDatabase.getInstance().reference.child("chats")
-                        .child(activity.receiverRoom!!)
+                        .child(activity.receiverRoom)
                         .child("messages").child(message.messageId).child("reaction")
                         .setValue(message.reaction)
-                }}}
+                }
             }
             true
-
         })
 
-        // For adding messages to db
         if (holder.javaClass == SentViewHolder::class.java) {
-
             viewHolder = holder as SentViewHolder
 
             when (message?.status) {
@@ -176,169 +162,127 @@ class ConvoAdapter(
                 "Delivered" -> {
                     (viewHolder as SentViewHolder).binding.tick1.visibility = View.VISIBLE
                     (viewHolder as SentViewHolder).binding.tick2.visibility = View.VISIBLE
-                    (viewHolder as SentViewHolder).binding.tick1.setColorFilter(
-                        ContextCompat.getColor(
-                            activity.applicationContext,
-                            R.color.white
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
-                    );
-                    (viewHolder as SentViewHolder).binding.tick2.setColorFilter(
-                        ContextCompat.getColor(
-                            activity.applicationContext,
-                            R.color.white
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
-                    );
+                    (viewHolder as SentViewHolder).binding.tick1.setColorFilter(ContextCompat.getColor(activity.applicationContext, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
+                    (viewHolder as SentViewHolder).binding.tick2.setColorFilter(ContextCompat.getColor(activity.applicationContext, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                 }
                 "Sent" -> {
                     (viewHolder as SentViewHolder).binding.tick1.visibility = View.VISIBLE
                     (viewHolder as SentViewHolder).binding.tick2.visibility = View.GONE
-                    (viewHolder as SentViewHolder).binding.tick1.setColorFilter(
-                        ContextCompat.getColor(
-                            activity.applicationContext,
-                            R.color.white
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
-                    );
-
+                    (viewHolder as SentViewHolder).binding.tick1.setColorFilter(ContextCompat.getColor(activity.applicationContext, R.color.white), android.graphics.PorterDuff.Mode.SRC_IN)
                 }
             }
-
-
-            (viewHolder as SentViewHolder).binding.message.text = message?.message
-            if(message!!.message == "This message is removed"){
+            if(message!!.message.isNotBlank()) {
+                (viewHolder as SentViewHolder).binding.message.text = message.message
+            }
+            if(message.message == "This message is removed"){
                 (viewHolder as SentViewHolder).binding.message.setTypeface(null, android.graphics.Typeface.ITALIC)
             }
-            (viewHolder as SentViewHolder).binding.time.text = message?.timestamp
+            if(message.timestamp.isNotBlank()) {
+                (viewHolder as SentViewHolder).binding.time.text = message.timestamp
+            }
 
+            if (message.message == "Photo" && message.imageUrl != "") {
+                (viewHolder as SentViewHolder).binding.sentImage.visibility = View.VISIBLE
+                (viewHolder as SentViewHolder).binding.message.visibility = View.GONE
 
-            if (message != null) {
-                if (message.message == "Photo" && message.imageUrl != "") {
-                    (viewHolder as SentViewHolder).binding.sentImage.visibility = View.VISIBLE
-                    (viewHolder as SentViewHolder).binding.message.visibility = View.GONE
+                Glide.with(activity.applicationContext).load(message.imageUrl).placeholder(R.drawable.placeholder).into((viewHolder as SentViewHolder).binding.sentImage)
 
-                    Glide.with(activity.applicationContext).load(message.imageUrl)
-                        .placeholder(R.drawable.placeholder)
-                        .into((viewHolder as SentViewHolder).binding.sentImage)
-
-
-                    (viewHolder as SentViewHolder).binding.sentImage.setOnClickListener {
-                        val myStories: ArrayList<MyStory> = ArrayList()
-                        myStories.add(MyStory(message.imageUrl))
-                        StoryView.Builder((activity).supportFragmentManager)
-                            .setStoriesList(myStories)
-                            .setStoryDuration(5000)
-                            .build()
-                            .show()
-                    }
-                } else if (message.imageUrl == "") {
-                    (viewHolder as SentViewHolder).binding.sentImage.visibility = View.GONE
-                    (viewHolder as SentViewHolder).binding.message.visibility = View.VISIBLE
-
-                }
-                if (message.reaction >= 0) {
-                    (viewHolder as SentViewHolder).binding.reaction.setImageResource(reaction[message.reaction])
-                    (viewHolder as SentViewHolder).binding.reaction.visibility = View.VISIBLE
-                } else {
-                    (viewHolder as SentViewHolder).binding.reaction.visibility = View.GONE
+                (viewHolder as SentViewHolder).binding.sentImage.setOnClickListener {
+                    val myStories: ArrayList<MyStory> = ArrayList()
+                    myStories.add(MyStory(message.imageUrl))
+                    StoryView.Builder((activity).supportFragmentManager)
+                        .setStoriesList(myStories)
+                        .setStoryDuration(5000)
+                        .build()
+                        .show()
                 }
 
+            }
+            else if (message.imageUrl == "") {
+                (viewHolder as SentViewHolder).binding.sentImage.visibility = View.GONE
+                (viewHolder as SentViewHolder).binding.message.visibility = View.VISIBLE
+            }
+            if (message.reaction >= 0) {
+                (viewHolder as SentViewHolder).binding.reaction.setImageResource(reaction[message.reaction])
+                (viewHolder as SentViewHolder).binding.reaction.visibility = View.VISIBLE
+            }
+            else {
+                (viewHolder as SentViewHolder).binding.reaction.visibility = View.GONE
             }
 
             (viewHolder as SentViewHolder).binding.message.setOnTouchListener(popup)
+
             (viewHolder as SentViewHolder).binding.time.setOnLongClickListener {
                 val optionPopup = PopupMenu(activity.applicationContext, it)
                 optionPopup.menuInflater.inflate(R.menu.menu_long_click, optionPopup.menu)
                 optionPopup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.copy -> {
-                            val clipboard =
-                                activity.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                            val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                             val clip = ClipData.newPlainText("text", messages?.get(position)!!.message)
                             clipboard.setPrimaryClip(clip)
                             Toast.makeText(activity.applicationContext, "Copied to clipboard", Toast.LENGTH_SHORT).show()
                         }
                         R.id.deleteForMe -> {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(senderRoom)
-                                        .child("messages").child(message!!.messageId).removeValue()
-                                }
-                            }
-                            messages?.remove(message)
-                            notifyDataSetChanged()
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    // get last message node
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(senderRoom)
-                                        .child("messages").orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
-                                            override fun onCancelled(p0: DatabaseError) {
-                                            }
-                                            override fun onDataChange(p0: DataSnapshot) {
-                                                if (p0.exists()) {
-                                                    for (i in p0.children) {
-                                                        val message = i.getValue(Message::class.java)
-                                                        if (message != null) {
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(senderRoom).child("lastMsg").setValue(message.message)
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(senderRoom).child("lastMsgTime").setValue(message.timestamp)
-
-                                                            notifyItemRemoved(position)
-
-                                                        }
-                                                    }
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom)
+                                .child("messages").child(message.messageId).removeValue()
+                            notifyItemRemoved(position)
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom)
+                                .child("messages").orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onCancelled(p0: DatabaseError) {
+                                    }
+                                    override fun onDataChange(p0: DataSnapshot) {
+                                        if (p0.exists()) {
+                                            for (i in p0.children) {
+                                                val currMsg = i.getValue(Message::class.java)
+                                                if (currMsg != null) {
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(senderRoom).child("lastMsg").setValue(currMsg.message)
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(senderRoom).child("lastMsgTime").setValue(currMsg.timestamp)
+                                                    notifyDataSetChanged()
                                                 }
                                             }
-                                        })
-                                }
-                            }
+                                        }
+                                    }
+                                })
                         }
                         R.id.deleteForAll -> {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(senderRoom)
-                                        .child("messages").child(messages?.get(position)!!.messageId).child("message").setValue("This message is removed")
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(receiverRoom)
-                                        .child("messages").child(messages.get(position)!!.messageId).child("message").setValue("This message is removed")
-                                }
-                            }
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    // get last message node
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom)
+                                .child("messages").child(message.messageId).child("message").setValue("This message is removed")
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(receiverRoom)
+                                .child("messages").child(message.messageId).child("message").setValue("This message is removed")
 
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(senderRoom)
-                                        .child("messages").orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
-                                            override fun onCancelled(p0: DatabaseError) {
-                                            }
-                                            override fun onDataChange(p0: DataSnapshot) {
-                                                if (p0.exists()) {
-                                                    for (i in p0.children) {
-                                                        val message = i.getValue(Message::class.java)
-                                                        if (message != null) {
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(senderRoom).child("lastMsg").setValue(message.message)
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(senderRoom).child("lastMsgTime").setValue(message.timestamp)
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom)
+                                .child("messages").orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onCancelled(p0: DatabaseError) {}
+                                    override fun onDataChange(p0: DataSnapshot) {
+                                        if (p0.exists()) {
+                                            for (i in p0.children) {
+                                                val currMsg = i.getValue(Message::class.java)
+                                                if (currMsg != null) {
 
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(receiverRoom).child("lastMsg").setValue(message.message)
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(receiverRoom).child("lastMsgTime").setValue(message.timestamp)
-                                                            notifyItemRemoved(position)
-                                                        }
-                                                    }
+
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(senderRoom).child("lastMsg").setValue(currMsg.message)
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(senderRoom).child("lastMsgTime").setValue(currMsg.timestamp)
+
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(receiverRoom).child("lastMsg").setValue(currMsg.message)
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(receiverRoom).child("lastMsgTime").setValue(currMsg.timestamp)
+                                                    notifyDataSetChanged()
                                                 }
                                             }
-                                        })
-
-                                }
-                            }
-                            notifyDataSetChanged()
+                                        }
+                                    }
+                                })
                         }
                     }
                     true
@@ -348,40 +292,44 @@ class ConvoAdapter(
             }
         }
         else {
-            FirebaseDatabase.getInstance().reference.child("chats")
+
+            viewHolder = holder as ReceivedViewHolder
+
+            Firebase.database.reference.child("chats")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.hasChild(receiverRoom)) {
                             if (snapshot.child(receiverRoom).hasChild("messages")) {
                                 if(snapshot.child(receiverRoom).child("messages").hasChild(message!!.messageId)){
-                                FirebaseDatabase.getInstance().reference.child("chats")
-                                    .child(receiverRoom)
-                                    .child("messages").child(message.messageId).child("status")
-                                    .setValue("Seen")
-                                    .addOnSuccessListener {
-                                        notifyDataSetChanged()
+                                    if(snapshot.child(receiverRoom).child("messages").child(message.messageId).hasChild("status")){
                                         FirebaseDatabase.getInstance().reference.child("chats")
-                                            .child(senderRoom).child("unseen")
-                                            .setValue(0)
-                                        notifyDataSetChanged()
+                                            .child(receiverRoom)
+                                            .child("messages").child(message.messageId).child("status")
+                                            .setValue("Seen")
+                                            .addOnSuccessListener {
+                                                notifyDataSetChanged()
+                                                FirebaseDatabase.getInstance().reference.child("chats")
+                                                    .child(senderRoom).child("unseen")
+                                                    .setValue(0)
+                                                notifyDataSetChanged()
+                                            }
                                     }
+                                }
                             }
-                        }}
+                        }
                     }
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-
+                    override fun onCancelled(error: DatabaseError) {}
                 })
 
-            viewHolder = holder as ReceivedViewHolder
-            (viewHolder as ReceivedViewHolder).binding.message.text = message?.message
-            if (message!!.message == "This message is removed") {
-                (viewHolder as ReceivedViewHolder).binding.message.setTypeface(
-                    null,
-                    android.graphics.Typeface.ITALIC
-                )
+            if(message!!.message.isNotBlank()) {
+                (viewHolder as ReceivedViewHolder).binding.message.text = message.message
             }
-            (viewHolder as ReceivedViewHolder).binding.time.text = message?.timestamp
+            if (message.message == "This message is removed") {
+                (viewHolder as ReceivedViewHolder).binding.message.setTypeface(null,android.graphics.Typeface.ITALIC)
+            }
+            if(message.timestamp.isNotBlank()) {
+                (viewHolder as ReceivedViewHolder).binding.time.text = message.timestamp
+            }
 
             if (message.message == "Photo" && message.imageUrl != "") {
                 (viewHolder as ReceivedViewHolder).binding.receivedImg.visibility = View.VISIBLE
@@ -391,11 +339,9 @@ class ConvoAdapter(
                     .placeholder(R.drawable.placeholder)
                     .into((viewHolder as ReceivedViewHolder).binding.receivedImg)
 
-
                 (viewHolder as ReceivedViewHolder).binding.receivedImg.setOnClickListener {
                     val myStories: ArrayList<MyStory> = ArrayList()
                     myStories.add(MyStory(message.imageUrl))
-
                     StoryView.Builder((activity).supportFragmentManager)
                         .setStoriesList(myStories)
                         .setStoryDuration(5000)
@@ -406,8 +352,6 @@ class ConvoAdapter(
             if (message.imageUrl == "") {
                 (viewHolder as ReceivedViewHolder).binding.receivedImg.visibility = View.GONE
                 (viewHolder as ReceivedViewHolder).binding.message.visibility = View.VISIBLE
-
-
             }
             if (message.reaction >= 0) {
                 (viewHolder as ReceivedViewHolder).binding.reaction.setImageResource(reaction[message.reaction])
@@ -426,53 +370,35 @@ class ConvoAdapter(
                         R.id.copy -> {
                             val clipboard =
                                 activity.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                            val clip = ClipData.newPlainText("text", message?.message)
+                            val clip = ClipData.newPlainText("text", message.message)
                             clipboard.setPrimaryClip(clip)
-                            Toast.makeText(
-                                activity.applicationContext,
-                                "Copied to clipboard",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(activity.applicationContext, "Copied to clipboard", Toast.LENGTH_SHORT).show()
                         }
                         R.id.deleteForMe -> {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(senderRoom)
-                                        .child("messages").child(message!!.messageId).removeValue()
-                                }
-                            }
-                            messages?.remove(message)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                withContext(Dispatchers.Main) {
-                                    // get last message node
-                                    FirebaseDatabase.getInstance().reference.child("chats")
-                                        .child(senderRoom)
-                                        .child("messages").orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
-                                            override fun onCancelled(p0: DatabaseError) {
-                                            }
-                                            override fun onDataChange(p0: DataSnapshot) {
-                                                if (p0.exists()) {
-                                                    for (i in p0.children) {
-                                                        val message = i.getValue(Message::class.java)
-                                                        if (message != null) {
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(senderRoom).child("lastMsg").setValue(message.message)
-                                                            FirebaseDatabase.getInstance().reference.child("chats")
-                                                                .child(senderRoom).child("lastMsgTime").setValue(message.timestamp)
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom)
+                                .child("messages").child(message.messageId).removeValue()
+                            notifyItemRemoved(position)
 
-
-                                                            notifyDataSetChanged()
-
-                                                        }
-                                                    }
+                            FirebaseDatabase.getInstance().reference.child("chats")
+                                .child(senderRoom)
+                                .child("messages").orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onCancelled(p0: DatabaseError) {}
+                                    override fun onDataChange(p0: DataSnapshot) {
+                                        if (p0.exists()) {
+                                            for (i in p0.children) {
+                                                val currMsg = i.getValue(Message::class.java)
+                                                if (currMsg != null) {
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(senderRoom).child("lastMsg").setValue(currMsg.message)
+                                                    FirebaseDatabase.getInstance().reference.child("chats")
+                                                        .child(senderRoom).child("lastMsgTime").setValue(currMsg.timestamp)
+                                                    notifyDataSetChanged()
                                                 }
                                             }
-                                        })
-
-                                }
-                            }
-                            notifyDataSetChanged()
+                                        }
+                                    }
+                                })
                         }
                     }
                     true
@@ -482,11 +408,7 @@ class ConvoAdapter(
             }
         }
     }
-
     override fun getItemCount(): Int {
         return messages!!.size
     }
-
-
-
 }

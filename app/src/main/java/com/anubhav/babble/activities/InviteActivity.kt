@@ -1,18 +1,14 @@
-package com.anubhav.babble.adapters
+package com.anubhav.babble.activities
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import com.anubhav.babble.R
-import com.anubhav.babble.activities.ContactData
-import com.anubhav.babble.activities.retrieveAllContacts
+import com.anubhav.babble.adapters.InviteAdapter
 import com.anubhav.babble.databinding.ActivityInviteBinding
 import com.anubhav.babble.db.RoomDb
-import com.anubhav.babble.db.UserEntity
 import com.anubhav.babble.models.Invite
 import com.anubhav.babble.models.User
 import com.google.firebase.auth.ktx.auth

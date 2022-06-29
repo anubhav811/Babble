@@ -93,7 +93,6 @@ class IncomingCall : AppCompatActivity() {
                         builder.setAudioMuted(false)
                         builder.setFeatureFlag("calendar.enabled",false)
                         builder.setFeatureFlag("chat.enabled",true)
-                        builder.setFeatureFlag("filmstrip.enabled",true)
                         builder.setFeatureFlag("live-streaming.enabled",false)
                         builder.setFeatureFlag("meeting-name.enabled",false)
                         builder.setFeatureFlag("meeting-password.enabled",false)
@@ -112,8 +111,6 @@ class IncomingCall : AppCompatActivity() {
                         }
                         JitsiMeetActivity.launch(this@IncomingCall,builder.build())
                         finish()
-
-
                     }
                     else if (type == "declined"){
                         Toast.makeText(this@IncomingCall,"Call Declined",Toast.LENGTH_LONG).show()
