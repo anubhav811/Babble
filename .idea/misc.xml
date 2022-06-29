@@ -24,38 +24,46 @@
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_decline.xml" value="0.2545" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/ic_video.xml" value="0.1745" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/label_bg.xml" value="0.11" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/round_toolbar.xml" value="0.161" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/drawable/sent_chat.xml" value="0.2045" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_chat.xml" value="0.264" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_chat.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_image_open.xml" value="0.25" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_image_picker.xml" value="0.1015625" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_incoming_call.xml" value="0.24895833333333334" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_invite.xml" value="0.2" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_main_og.xml" value="0.1902497027348395" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.2" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.264" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_outgoing_call.xml" value="0.24895833333333334" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_phone_auth.xml" value="0.144" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_phone_auth.xml" value="0.2" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_setup.xml" value="0.176" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_update.xml" value="0.1" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_splash.xml" value="0.1" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_users.xml" value="0.128" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_profile_update.xml" value="0.2" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_settings.xml" value="0.25" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/activity_users.xml" value="0.152" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/add_status_layout.xml" value="0.4" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/delete_dialog.xml" value="0.2" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/demo_layout.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/demo_status.xml" value="0.24895833333333334" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/demo_text.xml" value="0.19322916666666667" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_call.xml" value="0.1" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.2" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.176" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_chat2.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/fragment_profile.xml" value="0.1527777777777778" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/item_status.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/recieved_chat.xml" value="0.264" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_call.xml" value="0.4" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_call.xml" value="0.264" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_conversation.xml" value="0.264" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/row_user.xml" value="0.2" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/sent_chat.xml" value="0.264" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/sent_chat.xml" value="0.72" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/layout/sent_chat2.xml" value="0.25" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/bottom_nav.xml" value="0.1" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/chat_menu.xml" value="0.176" />
-        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/option_menu.xml" value="0.1" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/menu_long_click.xml" value="0.24895833333333334" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/menu_long_click_receiver.xml" value="0.25" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/option_menu.xml" value="0.152" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/menu/user_menu.xml" value="0.25" />
+        <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/mipmap-mdpi/ic_launcher.xml" value="0.161" />
         <entry key="..\:/Learning/Android/ChatApp/app/src/main/res/xml/file_provider.xml" value="0.1" />
       </map>
     </option>

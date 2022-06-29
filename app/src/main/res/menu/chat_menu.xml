@@ -2,11 +2,16 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
+    <item
+        android:id="@+id/voiceCall"
+        android:icon="@drawable/ic_call"
+        android:title="Video Call"
+        app:showAsAction="always" />
     <item
         android:id="@+id/videoCall"
         android:icon="@drawable/ic_video"
         android:title="Video Call"
         app:showAsAction="always" />
+
 
 </menu>

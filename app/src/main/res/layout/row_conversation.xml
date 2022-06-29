@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp">
+
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
@@ -12,6 +13,7 @@
         android:layout_marginTop="7dp"
         android:background="#23C1C1C1"
         android:foregroundGravity="center"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/username"
@@ -62,14 +64,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/lato"
         android:layout_marginEnd="8dp"
-        android:text="@string/sample_time"
+        android:fontFamily="@font/lato"
         android:textColor="#E7E6EC"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-    />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/unseen"

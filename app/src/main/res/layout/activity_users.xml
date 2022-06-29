@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:orientation="vertical"
     tools:context=".activities.UsersActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,10 +15,8 @@
         android:background="#171717"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
+        android:paddingEnd="10dp"
+>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,70 +32,57 @@
                 android:src="@drawable/ic_baseline_arrow_back_24"
                 tools:ignore="ContentDescription" />
 
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/user_activity_topbar"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_activity_topbar"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
-
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:searchIcon="@drawable/ic_search"
+            android:layout_gravity="end"
+            />
     </androidx.appcompat.widget.Toolbar>
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/user_shimmer"
+    <Button
+        android:id="@+id/inviteBtn"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#2A375A"
+        android:text="Invite Your Contacts"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-            <include layout="@layout/demo_layout"/>
-
-        </LinearLayout>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_rv"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="0dp"
-        android:layoutAnimation="@anim/layout_animation"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="8dp"
+        android:layoutAnimation="@anim/layout_animation"
+        android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:listitem="@layout/row_conversation" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

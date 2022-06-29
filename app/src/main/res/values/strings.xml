@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chat App</string>
+    <string name="app_name">Babble</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sample_name">Sample Name</string>
@@ -9,6 +9,7 @@
     <string name="delete_1">Delete for Everyone</string>
     <string name="delete_cancel">Cancel</string>
     <string name="user_activity_topbar">Select user</string>
+    <string name="invite_activity_topbar">Invite your contacts</string>
     <string name="profile_setup">Setup Profile</string>
     <string name="profile_subtitle">Please set your name and profile image (optional)</string>
     <string name="profile_subtitle_update">You can change your display name and your profile picture</string>

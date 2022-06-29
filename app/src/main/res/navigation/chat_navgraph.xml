@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.anubhav.chatapp.fragments.ChatsFragment"
+        android:name="com.anubhav.babble.fragments.ChatsFragment"
         android:label="ChatFragment" >
     </fragment>
     <fragment
         android:id="@+id/callFragment"
-        android:name="com.anubhav.chatapp.fragments.CallFragment"
+        android:name="com.anubhav.babble.fragments.CallFragment"
         android:label="fragment_call"
         tools:layout="@layout/fragment_call" >
     </fragment>

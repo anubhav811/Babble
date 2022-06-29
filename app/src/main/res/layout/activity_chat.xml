@@ -11,8 +11,13 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#171717"
+        android:layout_height="80dp"
+        android:textAlignment="center"
+        android:layout_margin="10dp"
+        android:paddingVertical="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/round_toolbar"
+        app:flow_verticalAlign="center"
         app:layout_constraintTop_toTopOf="parent"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
             >
 
             <ImageView
@@ -155,7 +161,7 @@
         app:layout_constraintDimensionRatio="1:1"
         android:layout_marginRight="5dp"
         android:background="@drawable/circle"
-        android:backgroundTint="#6E83B7"
+        android:backgroundTint="#4964EF"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"

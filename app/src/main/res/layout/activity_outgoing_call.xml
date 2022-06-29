@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/received"
     tools:context=".activities.OutgoingCall">
 
     <TextView
@@ -57,7 +58,7 @@
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/decline_btn"
+        android:id="@+id/cancel_btn"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="145dp"

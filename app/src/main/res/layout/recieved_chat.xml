@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:longClickable="true"
     android:layout_marginTop="5dp">
 
     <LinearLayout
-        android:elevation="15dp"
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +30,6 @@
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:fontFamily="@font/lato"
-
             android:layout_height="wrap_content"
             android:background="@drawable/received_drawable"
             android:paddingLeft="10dp"
@@ -43,9 +40,17 @@
             android:text="@string/sample_lastMsg"
             android:textColor="#BCBAC4"
             android:textSize="15sp" />
-        <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+    <TextView
             android:id="@+id/time"
-            android:layout_width="wrap_content"
+
+        android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/received_drawable"
             android:paddingLeft="10dp"
@@ -53,23 +58,22 @@
             android:paddingRight="10dp"
             android:fontFamily="@font/lato"
             android:text="@string/sample_time"
-            android:layout_gravity="start"
             android:textColor="#BCBAC4"
             android:textSize="13sp" />
 
     </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/reaction"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:elevation="16dp"
-        android:visibility="invisible"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
         app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_fb_love"
+        app:srcCompat="@drawable/ic_react"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

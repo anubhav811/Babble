@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    android:background="@color/received"
     tools:context=".activities.PhoneAuthActivity">
 
     <ImageView
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:backgroundTint="#2A375A"
+                android:backgroundTint="#4964EF"
                 android:text="Continue" />
         </LinearLayout>
 
