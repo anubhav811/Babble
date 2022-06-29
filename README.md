@@ -6,9 +6,9 @@
 ### Just sign up using your phone number and talk to anyone who uses Babble.
 
 
-
+<p align="center">
 <img src="https://github.com/anubhav811/Babble/blob/master/Github%20readme.png" alt="banner" width="1000"/>
-
+</p>
 
 
 
