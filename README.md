@@ -7,7 +7,7 @@
 
 
 
-<img src="https://github.com/anubhav811/Babble/blob/master/Github%20readme.png" alt="banner" width="900"/>
+<img src="https://github.com/anubhav811/Babble/blob/master/Github%20readme.png" alt="banner" width="1000"/>
 
 
 
