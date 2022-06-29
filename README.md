@@ -13,7 +13,7 @@
 
 
 
-## *Libraries/Sdk used*
+## Libraries/Sdk used
 
 #### * **The android app is coded in Kotlin and XML**
 
@@ -22,5 +22,10 @@
 #### * **[Jitsmi Meet](https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-android-sdk/)**
 
 #### * **[Retrofit](https://square.github.io/retrofit/)**
+
+
+## Download
+
+#### **The apk can be downloaded from *[releases](https://github.com/anubhav811/Babble/releases)* section**
 
 
